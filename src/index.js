@@ -2,39 +2,34 @@ const libshout = require('./libshout');
 const ShoutT = require('./shout_t');
 const MetadataT = require('./metadata_t');
 
-
 const nodeshout = {};
-
 
 /**
  * Initializes the shout library. This function must always be called before
  * any other libshout function.
  */
-nodeshout.init = function() {
+nodeshout.init = function () {
     libshout.shout_init();
 };
-
 
 /**
  * Releases any resources which may have been allocated by a call to shout_init.
  * An application should call this function after it has finished using libshout.
  */
-nodeshout.shutdown = function() {
+nodeshout.shutdown = function () {
     libshout.shout_shutdown();
 };
-
 
 /**
  * Gets libshout version.
  * @return {string}
  */
-nodeshout.getVersion = function() {
-    // Dummy buffers
+nodeshout.getVersion = function () {
     const buff1 = Buffer.alloc(100);
     const buff2 = Buffer.alloc(100);
     const buff3 = Buffer.alloc(100);
 
-    return libshout.shout_version(buff1, buff2, buff3);
+    return libshout.shout_version(Buffer.alloc(100), Buffer.alloc(100), Buffer.alloc(100));
 };
 
 
@@ -43,7 +38,7 @@ nodeshout.getVersion = function() {
  * The result should be disposed of with free when you are finished with it.
  * @return {ShoutT}
  */
-nodeshout.create = function() {
+nodeshout.create = function () {
     return new ShoutT();
 };
 
@@ -53,10 +48,9 @@ nodeshout.create = function() {
  * The result should be disposed of with free when you are finished with it.
  * @return {MetadataT}
  */
-nodeshout.createMetadata = function() {
+nodeshout.createMetadata = function () {
     return new MetadataT();
 };
-
 
 /**
  * Error constant of libshout.
@@ -75,6 +69,5 @@ nodeshout.ErrorTypes = {
     UNSUPPORTED: -9,
     BUSY: -10
 };
-
 
 module.exports = nodeshout;

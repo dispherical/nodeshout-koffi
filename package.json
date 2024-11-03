@@ -1,31 +1,29 @@
 {
-  "name": "nodeshout",
+  "name": "nodeshout-koffi",
   "version": "2.0.0",
-  "description": "Native libshout bindings for node.",
+  "description": "Native libshout bindings for node, but it uses koffi",
   "main": "src/index.js",
   "scripts": {
     "test": "node ./demos/01-blocking-io.js && node ./demos/02-non-blocking-io.js"
   },
-  "author": "Deniz Gurkaynak <dgurkaynak@gmail.com>",
-  "homepage": "https://github.com/dgurkaynak/nodeshout",
+  "author": "dispherical, Deniz Gurkaynak <dgurkaynak@gmail.com>",
+  "homepage": "https://github.com/dispherical/nodeshout-koffi",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dgurkaynak/nodeshout.git"
+    "url": "https://github.com/dispherical/nodeshout-koffi.git"
   },
   "bugs": {
-    "url": "https://github.com/dgurkaynak/nodeshout/issues"
+    "url": "https://github.com/dispherical/nodeshout-koffi/issues"
   },
   "keywords": [
     "libshout",
     "icecast",
     "stream",
-    "radio"
+    "radio",
+    "koffi"
   ],
   "license": "MIT",
   "dependencies": {
-    "ffi-napi": "^4.0.3",
-    "ref-array-napi": "^1.2.2",
-    "ref-napi": "^3.0.3",
-    "ref-struct-napi": "^1.1.1"
+    "koffi": "^2.9.1"
   }
 }

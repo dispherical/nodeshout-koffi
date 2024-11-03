@@ -1,6 +1,6 @@
-# nodeshout
+# nodeshout-koffi
 
-Native libshout bindings for node.js.
+Native libshout bindings for node.js, forked to use koffi instead of node-ffi. [Original here](https://github.com/dgurkaynak/nodeshout).
 
 > Libshout allows applications to easily communicate and broadcast to an Icecast streaming media server. It handles the socket connections, metadata communication, and data streaming for the calling application, and lets developers focus on feature sets instead of implementation details.
 
@@ -10,36 +10,35 @@ Original libshout docs: http://www.aelius.com/njh/libshout-doc/libshout.html (a 
 
 ## Node version compability
 
-Since this project heavily depends on [ffi-napi](https://github.com/node-ffi-napi/node-ffi-napi) project, there can be compability issues.
+I forked it from the original so it uses [koffi](https://koffi.dev) instead of ffi-napi, since for some reason I couldn't get ffi-napi working. Cited from the original, you'll need a Node.js version with N-API version 8:
 
-My tests for the current version (2.0.0):
 
-| node | npm | result |
-| -- | -- | -- |
-| v18.13.0 | 8.19.3 | :white_check_mark: |
-| 16.16.0 | 8.11.0 | :white_check_mark: |
-| 14.20.1 | 6.14.17 | :white_check_mark: (`python` required to install) |
-| 12.22.12 | 6.14.16 | :white_check_mark: (`python` required to install) |
-| 11.15.0 | 6.7.0 | :x: Use version `0.1.3` |
-| 10.16.0 | 6.9.0 | :x: Use version `0.1.3` |
-| 9.11.1 | 5.6.0 | :x: Use version `0.1.3` |
-| 8.11.4 | 5.6.0 | :x: Use version `0.1.3` |
+    Node < 12.22.0 is not supported
+    Node 12.x: Node 12.22.0 or newer
+    Node 14.x: Node 14.17.0 or newer
+    Node 15.x: Node 15.12.0 or newer
+    Node 16.0.0 or later versions
 
 ## Usage
 
-You have to install libshout library before using nodeshout. If you work on OS X, you can install via homebrew.
+You have to install the libshout library before using nodeshout-koffi. 
 
-```
-brew install libshout
+| Platform       | Package        |
+|----------------|----------------|
+| MacOS via brew | libshout       |
+| Ubuntu         | libshout       |
+| Fedora         | libshout-devel |
+| Alpine Linux   | libshout-dev   |
+
+Then, install nodeshout-koffi via npm.
+
+```sh
+npm i nodeshout-koffi
+# or
+yarn add nodeshout-koffi
 ```
 
-Then, install nodeshout via npm.
-
-```
-npm i nodeshout
-```
-
-Initalize nodeshout library, create a `Shout` instance and configure it.
+Initalize the nodeshout library, create a `Shout` instance and configure it.
 
 ```js
 // Initalize
@@ -49,15 +48,15 @@ nodeshout.init();
 const shout = nodeshout.create();
 
 // Configure it
-shout.setHost('localhost');
+shout.setHost("localhost");
 shout.setPort(8000);
-shout.setUser('source');
-shout.setPassword('password');
-shout.setMount('mount');
+shout.setUser("source");
+shout.setPassword("password");
+shout.setMount("mount");
 shout.setFormat(1); // 0=ogg, 1=mp3
-shout.setAudioInfo('bitrate', '192');
-shout.setAudioInfo('samplerate', '44100');
-shout.setAudioInfo('channels', '2');
+shout.setAudioInfo("bitrate", "192");
+shout.setAudioInfo("samplerate", "44100");
+shout.setAudioInfo("channels", "2");
 ```
 
 Open the connection.
@@ -87,25 +86,27 @@ Check the `/demos` folder.
 const metadata = nodeshout.createMetadata();
 
 // Set currently playing song.
-metadata.add('song', 'Led Zeppelin - I can\'t quit you baby');
+metadata.add("song", "Led Zeppelin - I can't quit you baby");
 
 // Apply metadata to shout
 shout.setMetadata(metadata);
 ```
 
 ## Developing
+
 Below is a short guild to the development in this repository
 
 - Clone repository
 - Verify that your node version and NPM version are compatible with the repository. [NVM](https://github.com/nvm-sh/nvm) is useful here.
 - Verify that you have the libshout dependency installed, for Mac OSX you can install with `brew install libshout` on a linux distribution like Ubuntu you need to download the source or binary and build it. Typically after building it will install to a directory like `/usr/local/lib/libshout`
-- Install dependencies: `npm i`
+- Install dependencies: `yarn install`
 - Start icecast server
 - Run `npm test` and see it's working
 
 ### Debuging
 
 #### Libshout install issue
+
 If you get the below error its likely that the `libshout` dependency is installed incorrectly
 `Error: ENOENT: no such file or directory, open 'libshout.so'`
 
